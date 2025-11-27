@@ -5,6 +5,9 @@ import { useGlitch } from "./hooks/useGlitch";
 import { useAudio } from "./hooks/useAudio";
 import VanitasScene from "./components/VanitasScene";
 import { UIOverlay } from "./components/UIOverlay";
+import { TimeSettings } from "./components/TimeSettings";
+import { SessionIndicator } from "./components/SessionIndicator";
+import { InfoBar } from "./components/InfoBar";
 import "./App.css";
 
 function App() {
@@ -113,6 +116,12 @@ function App() {
         onPerformanceChange={handlePerformanceChange}
       />
 
+      {/* Session Indicator - Top Left */}
+      <SessionIndicator />
+
+      {/* Time Settings - Top Right */}
+      <TimeSettings isRunning={isRunning} />
+
       {/* UI Overlay - Foreground Layer */}
       <UIOverlay
         timeRemaining={timeRemaining}
@@ -150,6 +159,9 @@ function App() {
           Click to enable audio
         </div>
       )}
+
+      {/* Info Bar - Bottom */}
+      {!needsUserInteraction && !audioError && <InfoBar />}
 
       {/* Audio error message (graceful degradation) */}
       {audioError && !hasAudioSupport && (

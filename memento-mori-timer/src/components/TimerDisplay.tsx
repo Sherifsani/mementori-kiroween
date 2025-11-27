@@ -39,6 +39,9 @@ export const TimerDisplay = ({
           fontFamily: "'Space Mono', monospace",
           color: "#e1e1e1",
           letterSpacing: "0.05em",
+          textShadow:
+            "0 0 20px rgba(212, 175, 55, 0.3), 0 0 40px rgba(212, 175, 55, 0.2)",
+          filter: shouldApplyZalgo ? "blur(0.5px)" : "none",
         }}
       >
         {displayText}

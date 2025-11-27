@@ -36,16 +36,27 @@ function SceneContent({
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 2, 5]} fov={45} />
+      <PerspectiveCamera makeDefault position={[0, 1.5, 4]} fov={50} />
 
-      <ambientLight intensity={0.3} />
+      <ambientLight intensity={0.4} />
+
+      {/* Key light from front-left */}
+      <directionalLight position={[-2, 3, 3]} intensity={0.8} color="#e1e1e1" />
 
       {/* Point light above candle for flame illumination */}
       <pointLight
-        position={[0, 2, 0]}
-        intensity={1.5}
+        position={[0, 2.2, 0]}
+        intensity={2.0}
         color="#d4af37"
-        distance={5}
+        distance={6}
+      />
+
+      {/* Rim light from behind for depth */}
+      <pointLight
+        position={[0, 1, -3]}
+        intensity={0.5}
+        color="#8a0b0b"
+        distance={8}
       />
 
       {/* 3D Models */}

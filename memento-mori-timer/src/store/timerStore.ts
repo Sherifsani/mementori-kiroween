@@ -19,6 +19,7 @@ interface TimerStore {
   tick: () => void;
   incrementCorruption: (amount: number) => void;
   switchSession: () => void;
+  setCustomTime: (minutes: number) => void;
 }
 
 const FOCUS_DURATION = 1500; // 25 minutes in seconds
@@ -74,6 +75,18 @@ export const useTimerStore = create<TimerStore>((set) => ({
         timeRemaining: newTotalTime,
         isRunning: false,
         corruptionLevel: 0, // Reset corruption on session switch
+      };
+    }),
+
+  // Set custom time in minutes
+  setCustomTime: (minutes: number) =>
+    set(() => {
+      const timeInSeconds = minutes * 60;
+      return {
+        totalTime: timeInSeconds,
+        timeRemaining: timeInSeconds,
+        isRunning: false,
+        corruptionLevel: 0,
       };
     }),
 }));
