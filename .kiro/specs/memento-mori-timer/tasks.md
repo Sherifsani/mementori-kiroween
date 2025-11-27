@@ -290,3 +290,4 @@
     - Test in Safari (WebKit)
     - Test on mobile browsers (iOS Safari, Chrome Android)
     - _Requirements: 8.1, 8.5_
+drei/useGLTF

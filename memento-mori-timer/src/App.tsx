@@ -8,9 +8,31 @@ import { UIOverlay } from "./components/UIOverlay";
 import { TimeSettings } from "./components/TimeSettings";
 import { SessionIndicator } from "./components/SessionIndicator";
 import { InfoBar } from "./components/InfoBar";
+import { WelcomeModal } from "./components/WelcomeModal";
+import { HelpButton } from "./components/HelpButton";
 import "./App.css";
 
+const WELCOME_MODAL_KEY = "memento-mori-welcome-shown";
+
 function App() {
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  // Check if this is the first visit
+  useEffect(() => {
+    const hasSeenWelcome = localStorage.getItem(WELCOME_MODAL_KEY);
+    if (!hasSeenWelcome) {
+      setShowWelcome(true);
+    }
+  }, []);
+
+  const handleCloseWelcome = () => {
+    localStorage.setItem(WELCOME_MODAL_KEY, "true");
+    setShowWelcome(false);
+  };
+
+  const handleOpenHelp = () => {
+    setShowWelcome(true);
+  };
   // Audio manager - initialize first to get completion sound callback
   const {
     playClickSound,
@@ -108,6 +130,9 @@ function App() {
 
   return (
     <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
+      {/* Welcome Modal - First Visit */}
+      {showWelcome && <WelcomeModal onClose={handleCloseWelcome} />}
+
       {/* 3D Scene - Background Layer */}
       <VanitasScene
         progress={progress}
@@ -162,6 +187,9 @@ function App() {
 
       {/* Info Bar - Bottom */}
       {!needsUserInteraction && !audioError && <InfoBar />}
+
+      {/* Help Button - Bottom Right */}
+      <HelpButton onClick={handleOpenHelp} />
 
       {/* Audio error message (graceful degradation) */}
       {audioError && !hasAudioSupport && (
