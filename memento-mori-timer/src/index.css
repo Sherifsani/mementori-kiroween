@@ -33,3 +33,26 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Glitch effect animations */
+@keyframes glitch-clip {
+  0% {
+    clip-path: inset(40% 0 30% 0);
+  }
+
+  25% {
+    clip-path: inset(10% 0 60% 0);
+  }
+
+  50% {
+    clip-path: inset(70% 0 10% 0);
+  }
+
+  75% {
+    clip-path: inset(20% 0 50% 0);
+  }
+
+  100% {
+    clip-path: inset(50% 0 20% 0);
+  }
+}

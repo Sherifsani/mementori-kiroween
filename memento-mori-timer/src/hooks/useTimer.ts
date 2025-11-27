@@ -10,11 +10,13 @@ interface UseTimerReturn {
   start: () => void;
   pause: () => void;
   reset: () => void;
+  onSessionComplete?: () => void;
 }
 
-export const useTimer = (): UseTimerReturn => {
+export const useTimer = (onSessionComplete?: () => void): UseTimerReturn => {
   const lastFrameTimeRef = useRef<number>(0);
   const accumulatedTimeRef = useRef<number>(0);
+  const sessionCompletedRef = useRef<boolean>(false);
 
   // Subscribe to Zustand store
   const timeRemaining = useTimerStore((state) => state.timeRemaining);
@@ -25,9 +27,30 @@ export const useTimer = (): UseTimerReturn => {
   const startTimer = useTimerStore((state) => state.startTimer);
   const pauseTimer = useTimerStore((state) => state.pauseTimer);
   const resetTimer = useTimerStore((state) => state.resetTimer);
+  const switchSession = useTimerStore((state) => state.switchSession);
 
   // Calculate progress (0-1) for shader calculations
   const progress = totalTime > 0 ? 1 - timeRemaining / totalTime : 0;
+
+  // Detect session completion
+  useEffect(() => {
+    if (timeRemaining === 0 && isRunning && !sessionCompletedRef.current) {
+      sessionCompletedRef.current = true;
+
+      // Call completion callback
+      if (onSessionComplete) {
+        onSessionComplete();
+      }
+
+      // Auto-switch to next session after a brief delay
+      setTimeout(() => {
+        switchSession();
+        sessionCompletedRef.current = false;
+      }, 1000);
+    } else if (timeRemaining > 0) {
+      sessionCompletedRef.current = false;
+    }
+  }, [timeRemaining, isRunning, onSessionComplete, switchSession]);
 
   // Countdown loop using requestAnimationFrame
   useEffect(() => {

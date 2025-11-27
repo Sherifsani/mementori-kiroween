@@ -35,8 +35,12 @@ export const useTimerStore = create<TimerStore>((set) => ({
   // Start the timer
   startTimer: () => set({ isRunning: true }),
 
-  // Pause the timer
-  pauseTimer: () => set({ isRunning: false }),
+  // Pause the timer and increment corruption
+  pauseTimer: () =>
+    set((state) => ({
+      isRunning: false,
+      corruptionLevel: Math.min(100, state.corruptionLevel + 5),
+    })),
 
   // Reset timer to current session's total time
   resetTimer: () =>

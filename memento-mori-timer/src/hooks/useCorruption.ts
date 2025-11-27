@@ -8,7 +8,6 @@ interface UseCorruptionReturn {
   vignetteIntensity: number;
 }
 
-const CORRUPTION_ON_PAUSE = 5;
 const CORRUPTION_ON_TAB_SWITCH = 10;
 const DEBOUNCE_MS = 500;
 

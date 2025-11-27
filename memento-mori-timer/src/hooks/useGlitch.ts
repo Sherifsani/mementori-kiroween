@@ -9,7 +9,7 @@ export const useGlitch = (): UseGlitchReturn => {
   const [isGlitching, setIsGlitching] = useState(false);
 
   useEffect(() => {
-    let clearTimer: NodeJS.Timeout | null = null;
+    let clearTimer: number | null = null;
 
     const handleFocusLoss = () => {
       setIsGlitching(true);
@@ -42,7 +42,7 @@ export const useGlitch = (): UseGlitchReturn => {
       window.removeEventListener("focus", handleFocusGain);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
 
-      if (clearTimer) {
+      if (clearTimer !== null) {
         clearTimeout(clearTimer);
       }
     };

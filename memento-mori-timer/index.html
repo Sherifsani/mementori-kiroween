@@ -7,11 +7,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Cinzel:wght@400;700&display=swap"
+    rel="stylesheet">
   <title>Memento Mori Timer</title>
 </head>
 
 <body>
+  <!-- SVG filter for RGB channel split glitch effect -->
+  <svg style="position: absolute; width: 0; height: 0;">
+    <defs>
+      <filter id="rgb-split">
+        <feOffset in="SourceGraphic" dx="2" dy="0" result="red" />
+        <feOffset in="SourceGraphic" dx="-2" dy="0" result="blue" />
+        <feOffset in="SourceGraphic" dx="0" dy="0" result="green" />
+        <feColorMatrix in="red" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="redChannel" />
+        <feColorMatrix in="blue" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
+          result="blueChannel" />
+        <feColorMatrix in="green" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"
+          result="greenChannel" />
+        <feBlend in="redChannel" in2="greenChannel" mode="screen" result="rg" />
+        <feBlend in="rg" in2="blueChannel" mode="screen" />
+      </filter>
+    </defs>
+  </svg>
+
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
